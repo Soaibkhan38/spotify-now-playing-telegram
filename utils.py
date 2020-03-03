@@ -28,3 +28,4 @@ This will open a panel with a preview of the song you are currently playing on S
 """
 
 app_url = config["tornado"]["app_url"]
+app_port = config["tornado"]["port"]
