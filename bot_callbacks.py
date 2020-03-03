@@ -70,11 +70,12 @@ def inlinequery(update, context):
     )
     song_title = song["name"]
     song_artist = song["artists"][0]["name"]
-    if "localhost" in app_url:
-        song_url = song["external_urls"]["spotify"]
-    else:
-        song_url = app_url + "/spotify/track/" + song["id"]
+    song_url = song["external_urls"]["spotify"]
     thumb = song["album"]["images"][-1]
+    if "localhost" in app_url:
+        app_song_url = song_url
+    else:
+        app_song_url = app_url + "/spotify/track/" + song["id"]
     results = [
         InlineQueryResultArticle(
             id=uuid4(),
@@ -91,7 +92,7 @@ def inlinequery(update, context):
             ),
             reply_markup=InlineKeyboardMarkup(
                 inline_keyboard=[
-                    [InlineKeyboardButton(text="Listen on Spotify", url=song_url)]
+                    [InlineKeyboardButton(text="Listen on Spotify", url=app_song_url)]
                 ]
             ),
         )
