@@ -12,7 +12,7 @@ from datetime import datetime
 
 from models import User
 from spotify_client import spt, get_credentials
-from utils import bot_description
+from utils import bot_description, app_url
 
 
 def help(update, context):
@@ -70,7 +70,10 @@ def inlinequery(update, context):
     )
     song_title = song["name"]
     song_artist = song["artists"][0]["name"]
-    song_url = song["external_urls"]["spotify"]
+    if "localhost" in app_url:
+        song_url = song["external_urls"]["spotify"]
+    else:
+        song_url = app_url + "/spotify/track/" + song["id"]
     thumb = song["album"]["images"][-1]
     results = [
         InlineQueryResultArticle(

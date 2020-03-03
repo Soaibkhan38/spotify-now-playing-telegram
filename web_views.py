@@ -53,4 +53,24 @@ class SpotifyCallback(tornado.web.RequestHandler):
             self.write("spotify no code")
 
 
-urls = [(r"/", MainHandler), (r"/spotify/callback", SpotifyCallback)]
+class SpotifyRedirectHandler(tornado.web.RequestHandler):
+    def get(self, track_id):
+        html = '''
+        <html>
+            <head>
+                <meta http-equiv="refresh" content="0;url=spotify://track/{}" />
+                <title></title>
+            </head>
+            <body></body>
+        </html>
+        '''
+        html = html.format(track_id)
+
+        self.write(html)
+
+
+urls = [
+    (r"/", MainHandler),
+    (r"/spotify/callback", SpotifyCallback),
+    (r"/spotify/track/(\w+)", SpotifyRedirectHandler),
+    ]
